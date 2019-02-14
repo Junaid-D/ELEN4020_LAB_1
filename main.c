@@ -31,6 +31,13 @@ void initElemsPerDim(Tensor* t, int* elemPerDim)
 
 }
 
+void dispose(Tensor* t)
+{
+
+	free(t->elemPerDim);
+	free(t->flattened);
+}
+
 Tensor rank2TensorAdd(Tensor* t1, Tensor* t2)
 {
 
@@ -91,13 +98,9 @@ int main()
 	Tensor res = rank2TensorAdd(&t,&t2);
 
 
-	free(res.flattened);
-	free(res.elemPerDim);
+	dispose(&t);
+	dispose(&t2);
+	dispose(&res);
 
-	free(t.flattened);
-	free(t.elemPerDim);
-
-	free(t2.flattened);
-	free(t2.elemPerDim);
 	return 0;
 }
