@@ -64,6 +64,34 @@ Tensor rank2TensorAdd(Tensor* t1, Tensor* t2)
 
 }
 
+Tensor rank23ensorAdd(Tensor* t1, Tensor* t2)
+{
+
+	Tensor res;
+	res.noDims=0;//error case
+	res.totalEntries=-1;//error case
+
+	if(t1->noDims!=3 || t2->noDims!=3)
+		return res;
+
+	if(t1->elemPerDim[0]!=t2->elemPerDim[0] || t1->elemPerDim[1]!=t2->elemPerDim[1] || t1->elemPerDim[2]!=t2->elemPerDim[2])
+		return res;
+
+	res.noDims=3;
+	res.totalEntries=t1->totalEntries;
+	initElemsPerDim(&res,t1->elemPerDim);
+	initFlat(&res);
+	for (int i=0; i<t1->totalEntries; i++)
+	{
+		res.flattened[i]=t1->flattened[i]+t2->flattened[i];
+		printf("%d%s%d\t%d\n",t1->flattened[i],"+",t2->flattened[i],res.flattened[i]);
+	}
+	return res;
+
+}
+
+
+
 int totalElements(int noDims, int* elemPerDim)
 {
 	int ans=1;
