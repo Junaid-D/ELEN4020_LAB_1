@@ -86,6 +86,7 @@ rank2Tensor rank2TensorAdd(rank2Tensor* t1, rank2Tensor* t2)
 	res.rows=-1;
 	res.matrix=NULL;
 
+
 	if(t1->rows!=t2->rows || t1->cols!=t2->cols)
 		return res;
 
@@ -105,6 +106,53 @@ rank2Tensor rank2TensorAdd(rank2Tensor* t1, rank2Tensor* t2)
 	}
 	return res;
 }
+
+
+void displayRank2Tensor(rank2Tensor* t)
+{
+	for(int i=0; i<t->rows; i++)
+	{
+		printf("(");
+		for(int j=0; j<t->cols; j++)
+		{
+
+			printf("%d,", t->matrix[i][j]);
+		}
+		printf(")\n");
+	}
+}
+
+rank2Tensor rank2TensorMult(rank2Tensor* t1, rank2Tensor* t2)
+{
+	rank2Tensor res;
+	res.cols=-1;
+	res.rows=-1;
+	res.matrix=NULL;
+
+	if(t1->cols!=t2->rows)
+		return res;
+
+	res.cols=t1->rows;
+	res.rows=t2->cols; 
+
+	initRank2Tensor(&res);
+	for(int i=0; i<res.rows; i++)
+	{
+		for(int j=0; j<res.rows; j++)
+		{
+			int sum=0;
+			for(int k=0; k<t1->cols; k++)
+ 			{
+ 				sum+=t1->matrix[i][k]*t2->matrix[k][j];
+ 			}
+ 			res.matrix[i][j]=sum;
+		}
+	}
+	return res;
+
+
+}
+
 
 rank3Tensor rank3TensorAdd(rank3Tensor* t1, rank3Tensor* t2)
 {
@@ -145,23 +193,30 @@ int main()
 
 	rank2Tensor t2_0;
 	t2_0.rows=3;
-	t2_0.cols=3;
+	t2_0.cols=2;
 	initRank2Tensor(&t2_0);
 
 
 	rank2Tensor t2_1;
-	t2_1.rows=3;
+	t2_1.rows=2;
 	t2_1.cols=3;
 	initRank2Tensor(&t2_1);
 
+	printf("%s\n", "Mat1" );
+	displayRank2Tensor(&t2_0);
+	printf("%s\n", "Mat2");
+	displayRank2Tensor(&t2_1);
 
+	printf("%s\n", "Result" );
+	rank2Tensor resMult=rank2TensorMult(&t2_0,&t2_1);
 
-
+	displayRank2Tensor(&resMult);
 	rank2Tensor res=rank2TensorAdd(&t2_0,&t2_1);
 
 	disposeRank2Tensor(&t2_0);
 	disposeRank2Tensor(&t2_1);
 	disposeRank2Tensor(&res);
+	disposeRank2Tensor(&resMult);
 
 
 	rank3Tensor t3;
