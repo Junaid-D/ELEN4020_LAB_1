@@ -64,13 +64,15 @@ void initRank2Tensor(rank2Tensor* t)
 
 void initRank3Tensor(rank3Tensor* t)
 {
-	t->matrix=malloc(t->rows*sizeof(int**));
+	t->matrix=malloc(t->height*sizeof(int**));
 	for(int i=0; i<t->height; i++)
 	{
 		t->matrix[i]=malloc(t->rows*sizeof(int*));
 		for(int j=0; j<t->rows; j++)
 		{
 			t->matrix[i][j]=malloc(t->cols*sizeof(int));
+			for(int k=0; k<t->cols; k++)
+				t->matrix[i][j][k]=rand()%10;
 		}
 
 	}
@@ -100,6 +102,37 @@ rank2Tensor rank2TensorAdd(rank2Tensor* t1, rank2Tensor* t2)
 			printf("left %d + right %d res : %d\n",t1->matrix[i][j],t2->matrix[i][j], res.matrix[i][j]);
 		}
 
+	}
+	return res;
+}
+
+rank3Tensor rank3TensorAdd(rank3Tensor* t1, rank3Tensor* t2)
+{
+	printf("%s\n","Rank3 Addition:" );
+	rank3Tensor res;
+	res.height=-1;
+	res.cols=-1;
+	res.rows=-1;
+	res.matrix=NULL;
+
+	if(t1->rows!=t2->rows || t1->cols!=t2->cols || t1->height!=t2->height)
+		return res;
+
+	res.cols=t1->cols;
+	res.rows=t1->rows;
+	res.height=t1->height;
+	initRank3Tensor(&res);
+	for(int i=0; i<res.height; i++)
+	{
+		for(int j=0; j<res.rows; j++)
+		{
+			for(int k=0; k<res.cols; k++)
+			{
+				res.matrix[i][j][k]=t1->matrix[i][j][k]+t2->matrix[i][j][k];
+				printf("left %d + right %d res : %d\n",t1->matrix[i][j][k],t2->matrix[i][j][k], res.matrix[i][j][k]);
+			}
+		}
+		
 	}
 	return res;
 }
@@ -136,6 +169,9 @@ int main()
 	t3.height=2;
 	t3.cols=2;
 	initRank3Tensor(&t3);
+
+	rank3Tensor res3=rank3TensorAdd(&t3,&t3);
+	disposeRank3Tensor(&res3);
 	disposeRank3Tensor(&t3);
 
 
