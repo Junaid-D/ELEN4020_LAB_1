@@ -108,19 +108,7 @@ rank2Tensor rank2TensorAdd(rank2Tensor* t1, rank2Tensor* t2)
 }
 
 
-void displayRank2Tensor(rank2Tensor* t)
-{
-	for(int i=0; i<t->rows; i++)
-	{
-		printf("(");
-		for(int j=0; j<t->cols; j++)
-		{
 
-			printf("%d,", t->matrix[i][j]);
-		}
-		printf(")\n");
-	}
-}
 
 rank2Tensor rank2TensorMult(rank2Tensor* t1, rank2Tensor* t2)
 {
@@ -185,6 +173,76 @@ rank3Tensor rank3TensorAdd(rank3Tensor* t1, rank3Tensor* t2)
 	return res;
 }
 
+rank3Tensor rank3TensorMult(rank3Tensor* t1, rank3Tensor* t2)
+{
+	rank3Tensor res;
+	res.cols=-1;
+	res.rows=-1;
+	res.matrix=NULL;
+
+	if(t1->cols!=t2->height)// there are likely other criteria
+		return res;
+
+	res.cols=t1->rows;
+	res.height=t1->height;
+	res.rows=t2->cols; 
+
+	initRank3Tensor(&res);
+	for(int i=0; i<res.height; i++)
+	{
+		for(int j=0; j<res.rows; j++)
+		{
+			for(int k=0; k<res.rows; k++)
+			{
+				int sum=0;
+				for(int l=0; l<t1->cols; l++)
+	 			{
+	 				sum+=t1->matrix[i][k][l]*t2->matrix[t2->height-1-l][j][k];
+	 			}
+	 			res.matrix[i][j][k]=sum;
+			}
+		}
+	}
+	return res;
+
+
+}
+
+
+void displayRank2Tensor(rank2Tensor* t)
+{
+	for(int i=0; i<t->rows; i++)
+	{
+		printf("(");
+		for(int j=0; j<t->cols; j++)
+		{
+
+			printf("%d,", t->matrix[i][j]);
+		}
+		printf("\b)\n");
+	}
+}
+
+
+void displayRank3Tensor(rank3Tensor* t)
+{
+	for(int i=0; i<t->height; i++)
+	{
+		printf("Level %d\n",i );
+		for(int j=0; j<t->rows; j++)
+		{
+			printf("(");
+			for(int k=0; k<t->cols; k++)
+			{
+
+				printf("%d,", t->matrix[i][j][k]);
+			}
+			printf("\b)\n");
+		}
+		
+	}	
+}
+
 
 
 int main()
@@ -220,12 +278,20 @@ int main()
 
 
 	rank3Tensor t3;
-	t3.rows=2;
-	t3.height=2;
-	t3.cols=2;
+	t3.rows=3;
+	t3.height=3;
+	t3.cols=3;
 	initRank3Tensor(&t3);
 
 	rank3Tensor res3=rank3TensorAdd(&t3,&t3);
+	rank3Tensor res3mul=rank3TensorMult(&t3,&t3);
+	printf("T3 :\n" );
+	displayRank3Tensor(&t3);
+
+	printf("Mul Res: \n" );
+	displayRank3Tensor(&res3mul);
+
+	disposeRank3Tensor(&res3mul);
 	disposeRank3Tensor(&res3);
 	disposeRank3Tensor(&t3);
 
