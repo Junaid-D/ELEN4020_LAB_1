@@ -79,7 +79,7 @@ void initRank3Tensor(rank3Tensor* t)
 
 }
 
-rank2Tensor rank2TensorAdd(rank2Tensor* t1, rank2Tensor* t2)
+rank2Tensor rank2Tensoradd(rank2Tensor* t1, rank2Tensor* t2)
 {
 	rank2Tensor res;
 	res.cols=-1;
@@ -142,9 +142,9 @@ rank2Tensor rank2TensorMult(rank2Tensor* t1, rank2Tensor* t2)
 }
 
 
-rank3Tensor rank3TensorAdd(rank3Tensor* t1, rank3Tensor* t2)
+rank3Tensor rank3Tensoradd(rank3Tensor* t1, rank3Tensor* t2)
 {
-	printf("%s\n","Rank3 Addition:" );
+	printf("%s\n","Rank3 addition:" );
 	rank3Tensor res;
 	res.height=-1;
 	res.cols=-1;
@@ -192,7 +192,7 @@ rank3Tensor rank3TensorMult(rank3Tensor* t1, rank3Tensor* t2)
 	{
 		for(int j=0; j<res.rows; j++)
 		{
-			for(int k=0; k<res.rows; k++)
+			for(int k=0; k<res.cols; k++)
 			{
 				int sum=0;
 				for(int l=0; l<t1->cols; l++)
@@ -271,7 +271,7 @@ int main()
 	rank2Tensor resMult=rank2TensorMult(&t2_0,&t2_1);
 
 	displayRank2Tensor(&resMult);
-	rank2Tensor res=rank2TensorAdd(&t2_0,&t2_1);
+	rank2Tensor res=rank2Tensoradd(&t2_0,&t2_1);
 
 	disposeRank2Tensor(&t2_0);
 	disposeRank2Tensor(&t2_1);
@@ -285,7 +285,7 @@ int main()
 	t3.cols=3;
 	initRank3Tensor(&t3);
 
-	rank3Tensor res3=rank3TensorAdd(&t3,&t3);
+	rank3Tensor res3=rank3Tensoradd(&t3,&t3);
 	rank3Tensor res3mul=rank3TensorMult(&t3,&t3);
 	printf("T3 :\n" );
 	displayRank3Tensor(&t3);
@@ -297,62 +297,81 @@ int main()
 	disposeRank3Tensor(&res3);
 	disposeRank3Tensor(&t3);
 */
-	rank2Tensor A_t2_0;
-	rank2Tensor A_t2_1;
-	rank2Tensor B_t2_0;
-	rank2Tensor B_t2_1;
-	
-	
-	A_t2_0.rows=bound0;
-	A_t2_0.cols=bound0;
-	initRank2Tensor(A_t2_0);
 
-	B_t2_0.rows=bound0;
-	B_t2_0.cols=bound0;	
-	initRank2Tensor(B_t2_0);
+	rank2Tensor a_t2_0;
+	rank2Tensor a_t2_1;
+	rank2Tensor b_t2_0;
+	rank2Tensor b_t2_1;
 	
-	A_t2_1.rows=bound1;
-	A_t2_1.cols=bound1;
-	initRank2Tensor(A_t2_1);
 	
-	B_t2_1.rows=bound1;
-	B_t2_1.cols=bound1;	
-	initRank2Tensor(B_t2_1);
+	a_t2_0.rows=bound0;
+	a_t2_0.cols=bound0;
+	initRank2Tensor(a_t2_0);
+
+	b_t2_0.rows=bound0;
+	b_t2_0.cols=bound0;	
+	initRank2Tensor(b_t2_0);
 	
-	rank2Tensor c_t2_0_add=rank2TensorAdd(&A_t2_0,&B_t2_0);
-	rank2Tensor c_t2_0_mult=rank2TensorMult(&A_t2_0,&B_t2_0);
-	rank2Tensor c_t2_1_add=rank2TensorAdd(&A_t2_1,&B_t2_1);
-	rank2Tensor c_t2_1_mult=rank2TensorMult(&A_t2_1,&B_t2_1);
+	a_t2_1.rows=bound1;
+	a_t2_1.cols=bound1;
+	initRank2Tensor(a_t2_1);
 	
-	rank3Tensor A_t3_0;
-	rank3Tensor A_t3_1;
-	rank3Tensor B_t3_0;
-	rank3Tensor B_t3_1;
+	b_t2_1.rows=bound1;
+	b_t2_1.cols=bound1;	
+	initRank2Tensor(b_t2_1);
 	
-	A_t3_0.rows=bound0;
-	A_t3_0.cols=bound0;
-	A_t3_0.height=bound0;
-	initRank3Tensor(A_t3_0);
+	rank2Tensor c_t2_0_add=rank2Tensoradd(&a_t2_0,&b_t2_0);
+	rank2Tensor c_t2_0_mult=rank2TensorMult(&a_t2_0,&b_t2_0);
+	rank2Tensor c_t2_1_add=rank2Tensoradd(&a_t2_1,&b_t2_1);
+	rank2Tensor c_t2_1_mult=rank2TensorMult(&a_t2_1,&b_t2_1);
 	
-	B_t3_0.rows=bound0;
-	B_t3_0.cols=bound0;	
-	B_t3_0.height=bound0;
-	initRank3Tensor(B_t3_0);
+	disposeRank2Tensor(a_t2_0);
+	disposeRank2Tensor(b_t2_0);
+	disposeRank2Tensor(c_t2_0_add);
+	disposeRank2Tensor(c_t2_0_mult);
+	disposeRank2Tensor(a_t2_1);
+	disposeRank2Tensor(b_t2_1);
+	disposeRank2Tensor(c_t2_1_add);	
+	disposeRank2Tensor(c_t2_1_mult);
+
 	
-	A_t3_1.rows=bound1;
-	A_t3_1.cols=bound1;
-	A_t3_1.height=bound1;
-	initRank3Tensor(A_t3_1);
+	rank3Tensor a_t3_0;
+	rank3Tensor a_t3_1;
+	rank3Tensor b_t3_0;
+	rank3Tensor b_t3_1;
 	
-	B_t3_1.rows=bound1;
-	B_t3_1.cols=bound1;
-	B_t3_1.height=bound1;
-	initRank3Tensor(B_t3_1);
+	a_t3_0.rows=bound0;
+	a_t3_0.cols=bound0;
+	a_t3_0.height=bound0;
+	initRank3Tensor(a_t3_0);
 	
-	rank3Tensor c_t3_0_add=rank3TensorAdd(&A_t3_0,&B_t3_0);
-	rank3Tensor c_t3_0_mult=rank3TensorMult(&A_t3_0,&B_t3_0);
-	rank3Tensor c_t3_1_add=rank3TensorAdd(&A_t3_1,&B_t3_1);
-	rank3Tensor c_t3_1_mult=rank3TensorMult(&A_t3_1,&B_t3_1);
+	b_t3_0.rows=bound0;
+	b_t3_0.cols=bound0;	
+	b_t3_0.height=bound0;
+	initRank3Tensor(b_t3_0);
 	
+	a_t3_1.rows=bound1;
+	a_t3_1.cols=bound1;
+	a_t3_1.height=bound1;
+	initRank3Tensor(a_t3_1);
+	
+	b_t3_1.rows=bound1;
+	b_t3_1.cols=bound1;
+	b_t3_1.height=bound1;
+	initRank3Tensor(b_t3_1);
+	
+	rank3Tensor c_t3_0_add=rank3Tensoradd(&a_t3_0,&b_t3_0);
+	rank3Tensor c_t3_0_mult=rank3TensorMult(&a_t3_0,&b_t3_0);
+	rank3Tensor c_t3_1_add=rank3Tensoradd(&a_t3_1,&b_t3_1);
+	rank3Tensor c_t3_1_mult=rank3TensorMult(&a_t3_1,&b_t3_1);
+	
+	disposeRank3Tensor(a_t3_0);
+	disposeRank3Tensor(b_t3_0);
+	disposeRank3Tensor(c_t3_0_add);
+	disposeRank3Tensor(c_t3_0_mult);
+	disposeRank3Tensor(a_t3_1);
+	disposeRank3Tensor(b_t3_1);
+	disposeRank3Tensor(c_t3_1_add);	
+	disposeRank3Tensor(c_t3_1_mult);
 	return 0;
 }
