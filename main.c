@@ -180,12 +180,12 @@ rank3Tensor rank3TensorMult(rank3Tensor* t1, rank3Tensor* t2)
 	res.rows=-1;
 	res.matrix=NULL;
 
-	if(t1->cols!=t2->height)// there are likely other criteria
+	if(t1->rows!=t2->rows || t1->cols!=t2->cols || t1->height!=t2->height)
 		return res;
 
-	res.cols=t1->rows;
+	res.rows=t1->rows;
 	res.height=t1->height;
-	res.rows=t2->cols; 
+	res.cols=t1->cols; 
 
 	initRank3Tensor(&res);
 	for(int i=0; i<res.height; i++)
@@ -248,8 +248,10 @@ void displayRank3Tensor(rank3Tensor* t)
 int main()
 {
 	srand(time(NULL));
-
-	rank2Tensor t2_0;
+	int bound0=10;
+	int bound1=20;
+	
+/*	rank2Tensor t2_0;
 	t2_0.rows=3;
 	t2_0.cols=2;
 	initRank2Tensor(&t2_0);
@@ -294,7 +296,63 @@ int main()
 	disposeRank3Tensor(&res3mul);
 	disposeRank3Tensor(&res3);
 	disposeRank3Tensor(&t3);
+*/
+	rank2Tensor A_t2_0;
+	rank2Tensor A_t2_1;
+	rank2Tensor B_t2_0;
+	rank2Tensor B_t2_1;
+	
+	
+	A_t2_0.rows=bound0;
+	A_t2_0.cols=bound0;
+	initRank2Tensor(A_t2_0);
 
-
+	B_t2_0.rows=bound0;
+	B_t2_0.cols=bound0;	
+	initRank2Tensor(B_t2_0);
+	
+	A_t2_1.rows=bound1;
+	A_t2_1.cols=bound1;
+	initRank2Tensor(A_t2_1);
+	
+	B_t2_1.rows=bound1;
+	B_t2_1.cols=bound1;	
+	initRank2Tensor(B_t2_1);
+	
+	rank2Tensor c_t2_0_add=rank2TensorAdd(&A_t2_0,&B_t2_0);
+	rank2Tensor c_t2_0_mult=rank2TensorMult(&A_t2_0,&B_t2_0);
+	rank2Tensor c_t2_1_add=rank2TensorAdd(&A_t2_1,&B_t2_1);
+	rank2Tensor c_t2_1_mult=rank2TensorMult(&A_t2_1,&B_t2_1);
+	
+	rank3Tensor A_t3_0;
+	rank3Tensor A_t3_1;
+	rank3Tensor B_t3_0;
+	rank3Tensor B_t3_1;
+	
+	A_t3_0.rows=bound0;
+	A_t3_0.cols=bound0;
+	A_t3_0.height=bound0;
+	initRank3Tensor(A_t3_0);
+	
+	B_t3_0.rows=bound0;
+	B_t3_0.cols=bound0;	
+	B_t3_0.height=bound0;
+	initRank3Tensor(B_t3_0);
+	
+	A_t3_1.rows=bound1;
+	A_t3_1.cols=bound1;
+	A_t3_1.height=bound1;
+	initRank3Tensor(A_t3_1);
+	
+	B_t3_1.rows=bound1;
+	B_t3_1.cols=bound1;
+	B_t3_1.height=bound1;
+	initRank3Tensor(B_t3_1);
+	
+	rank3Tensor c_t3_0_add=rank3TensorAdd(&A_t3_0,&B_t3_0);
+	rank3Tensor c_t3_0_mult=rank3TensorMult(&A_t3_0,&B_t3_0);
+	rank3Tensor c_t3_1_add=rank3TensorAdd(&A_t3_1,&B_t3_1);
+	rank3Tensor c_t3_1_mult=rank3TensorMult(&A_t3_1,&B_t3_1);
+	
 	return 0;
 }
