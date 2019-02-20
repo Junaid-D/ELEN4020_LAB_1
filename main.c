@@ -180,12 +180,14 @@ rank3Tensor rank3TensorMult(rank3Tensor* t1, rank3Tensor* t2)
 	res.rows=-1;
 	res.matrix=NULL;
 
-	if(t1->rows!=t2->rows || t1->cols!=t2->cols || t1->height!=t2->height)
-		return res;
 
-	res.rows=t1->rows;
-	res.height=t1->height;
+	if(t1->cols!=t2->height )
+		return res;
 	res.cols=t1->cols; 
+
+
+	res.height=t2->height;
+	res.rows=t1->rows;
 
 	initRank3Tensor(&res);
 	for(int i=0; i<res.height; i++)
