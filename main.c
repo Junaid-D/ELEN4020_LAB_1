@@ -8,7 +8,9 @@
 
 int main()
 {
+
 	srand(time(NULL));
+	//constants as per requirements
 	int bound0=10;
 	int bound1=20;
 	
@@ -35,6 +37,7 @@ int main()
 	disposeRank3Tensor(&t3);
 */
 
+
 	rank2Tensor a_t2_0;
 	rank2Tensor a_t2_1;
 	rank2Tensor b_t2_0;
@@ -56,12 +59,16 @@ int main()
 	b_t2_1.rows=bound1;
 	b_t2_1.cols=bound1;	
 	initRank2Tensor(&b_t2_1);
+
+	//creation and initialisation of the rank2 tensors ^^
 	
-	rank2Tensor c_t2_0_add=rank2Tensoradd(&a_t2_0,&b_t2_0);
+	rank2Tensor c_t2_0_add=rank2TensorAdd(&a_t2_0,&b_t2_0);
 	rank2Tensor c_t2_0_mult=rank2TensorMult(&a_t2_0,&b_t2_0);
-	rank2Tensor c_t2_1_add=rank2Tensoradd(&a_t2_1,&b_t2_1);
+	rank2Tensor c_t2_1_add=rank2TensorAdd(&a_t2_1,&b_t2_1);
 	rank2Tensor c_t2_1_mult=rank2TensorMult(&a_t2_1,&b_t2_1);
+	//performing all required operations
 	
+	//freeing memory for results and the inital tensors
 	disposeRank2Tensor(&a_t2_0);
 	disposeRank2Tensor(&b_t2_0);
 	disposeRank2Tensor(&c_t2_0_add);
@@ -71,6 +78,8 @@ int main()
 	disposeRank2Tensor(&c_t2_1_add);	
 	disposeRank2Tensor(&c_t2_1_mult);
 
+
+	//repeating the process for rank3 tensors
 	
 	rank3Tensor a_t3_0;
 	rank3Tensor a_t3_1;
@@ -97,9 +106,9 @@ int main()
 	b_t3_1.height=bound1;
 	initRank3Tensor(&b_t3_1);
 	
-	rank3Tensor c_t3_0_add=rank3Tensoradd(&a_t3_0,&b_t3_0);
+	rank3Tensor c_t3_0_add=rank3TensorAdd(&a_t3_0,&b_t3_0);
 	rank3Tensor c_t3_0_mult=rank3TensorMult(&a_t3_0,&b_t3_0);
-	rank3Tensor c_t3_1_add=rank3Tensoradd(&a_t3_1,&b_t3_1);
+	rank3Tensor c_t3_1_add=rank3TensorAdd(&a_t3_1,&b_t3_1);
 	rank3Tensor c_t3_1_mult=rank3TensorMult(&a_t3_1,&b_t3_1);
 	
 	disposeRank3Tensor(&a_t3_0);
@@ -110,5 +119,7 @@ int main()
 	disposeRank3Tensor(&b_t3_1);
 	disposeRank3Tensor(&c_t3_1_add);	
 	disposeRank3Tensor(&c_t3_1_mult);
+
+	//no results are printed but this can be achieved using displayRankNTensor(tensor)
 	return 0;
 }

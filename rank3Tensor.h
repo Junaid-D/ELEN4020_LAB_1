@@ -14,7 +14,8 @@ typedef struct Tensor3
 }rank3Tensor;
 
 
-
+//frees dynamically allocated memory
+//MUST be called for every tensor you create
 void disposeRank3Tensor(rank3Tensor* t)
 {
 	
@@ -33,7 +34,8 @@ void disposeRank3Tensor(rank3Tensor* t)
 
 
 
-
+//allocates memory and assigns random values
+//MUST be called for every tensor you create/
 void initRank3Tensor(rank3Tensor* t)
 {
 	t->matrix=malloc(t->height*sizeof(int**));
@@ -51,7 +53,8 @@ void initRank3Tensor(rank3Tensor* t)
 
 }
 
-rank3Tensor rank3Tensoradd(rank3Tensor* t1, rank3Tensor* t2)
+//adds two rank3 tensors, if dimensionality holsd
+rank3Tensor rank3TensorAdd(rank3Tensor* t1, rank3Tensor* t2)
 {
 	rank3Tensor res;
 	res.height=-1;
@@ -80,6 +83,7 @@ rank3Tensor rank3Tensoradd(rank3Tensor* t1, rank3Tensor* t2)
 	return res;
 }
 
+//multiplies two rank3 tensors, returning result if dimensionality holds
 rank3Tensor rank3TensorMult(rank3Tensor* t1, rank3Tensor* t2)
 {
 	rank3Tensor res;
@@ -105,6 +109,7 @@ rank3Tensor rank3TensorMult(rank3Tensor* t1, rank3Tensor* t2)
 				int sum=0;
 				for(int l=0; l<t1->cols; l++)
 	 			{
+	 				//go from the top of the column matrix down, instead of bottom-up
 	 				sum+=t1->matrix[i][k][l]*t2->matrix[t2->height-1-l][j][k];
 	 			}
 	 			res.matrix[i][j][k]=sum;
@@ -115,7 +120,7 @@ rank3Tensor rank3TensorMult(rank3Tensor* t1, rank3Tensor* t2)
 
 
 }
-
+//prints the contents of a rank 3 tensor, for each 'row' matrix, row-by-row
 void displayRank3Tensor(rank3Tensor* t)
 {
 	for(int i=0; i<t->height; i++)

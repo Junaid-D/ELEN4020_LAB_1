@@ -11,7 +11,8 @@ typedef struct Tensor2
 
 }rank2Tensor;
 
-
+//frees dynamically allocated memory
+//MUST be called for every tensor you create
 void disposeRank2Tensor(rank2Tensor* t)
 {
 	
@@ -24,6 +25,8 @@ void disposeRank2Tensor(rank2Tensor* t)
 
 }
 
+//allocates memory and assigns random values
+//MUST be called for every tensor you create
 void initRank2Tensor(rank2Tensor* t)
 {
 	t->matrix=malloc(t->rows*sizeof(int*));
@@ -37,8 +40,8 @@ void initRank2Tensor(rank2Tensor* t)
 
 }
 
-
-rank2Tensor rank2Tensoradd(rank2Tensor* t1, rank2Tensor* t2)
+//adds two rank 2 tensors, returns result if dimensionality holds
+rank2Tensor rank2TensorAdd(rank2Tensor* t1, rank2Tensor* t2)
 {
 	rank2Tensor res;
 	res.cols=-1;
@@ -65,7 +68,7 @@ rank2Tensor rank2Tensoradd(rank2Tensor* t1, rank2Tensor* t2)
 	return res;
 }
 
-
+//mutliplies two rank2 tensors and returns result if conformity is satisfied
 rank2Tensor rank2TensorMult(rank2Tensor* t1, rank2Tensor* t2)
 {
 	rank2Tensor res;
@@ -96,7 +99,7 @@ rank2Tensor rank2TensorMult(rank2Tensor* t1, rank2Tensor* t2)
 
 
 }
-
+//prints the contents of a rank two tensor, row-by-row
 void displayRank2Tensor(rank2Tensor* t)
 {
 	for(int i=0; i<t->rows; i++)
